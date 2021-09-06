@@ -1,0 +1,30 @@
+{
+  "include": [
+    "src/components/**/*",
+    "src/client/**/*",
+    "src/server/**/*",
+  ],
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "module": "esnext",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "../dist",
+    "baseUrl": ".",
+    "paths": {
+      "src": [
+        "./src"
+      ],
+      "components": ["./src/components"],
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
