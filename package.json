@@ -1,14 +1,19 @@
 {
-  "name": "memes-monorepo",
+  "name": "base-monorepo",
   "private": true,
   "scripts": {
-    "build:client": "rm -rf ./dist && lerna run build --scope=@memes/client --stream"
+    "build": "yarn clean && yarn build:client && yarn build:server",
+    "start": "concurrently --kill-others \"node dist/api\" \"node dist/server\"",
+    "clean": "rm -rf ./dist",
+    "build:client": "lerna run build --scope=@app/client --stream",
+    "build:server": "lerna run build --scope=@app/server --stream"
   },
   "workspaces": [
     "client",
     "server"
   ],
   "devDependencies": {
+    "concurrently": "^6.2.1",
     "lerna": "^4.0.0"
   }
 }

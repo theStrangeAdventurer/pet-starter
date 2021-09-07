@@ -6,7 +6,6 @@ import path from 'path';
 
 import { App } from 'src/components/App';
 
-
 const app = express();
 const jsFiles: string[] = [];
 
