@@ -4,11 +4,11 @@ RUN yarn set version berry
 
 WORKDIR /app
 
-COPY package.json .
-COPY .yarnrc.yml .
-COPY lerna.json .
-COPY yarn.lock .
-COPY ./api ./api
+COPY ./../package.json .
+COPY ./../.yarnrc.yml .
+COPY ./../lerna.json .
+COPY ./../yarn.lock .
+COPY ./../api ./api
 
 RUN yarn install
 RUN yarn build:api

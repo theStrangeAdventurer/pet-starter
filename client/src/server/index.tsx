@@ -30,8 +30,7 @@ app.get("/", (req, res) => {
 </head>
 <body>
   <div id="root">${jsx}<div>
-
-  ${jsFiles.map((script) => `<script defer src="${script}"></script>`)}
+  ${jsFiles.map((script) => `<script defer src="${script}"></script>`).join('\n\t')}
 </body>
 </html>  
 `);
