@@ -1,0 +1,39 @@
+version: "3"
+services:
+  client:
+    container_name: client_api
+    image: client_api
+    restart: always
+    volumes:
+      - ./client:/app/client
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+
+  api:
+    container_name: monorepo_api
+    image: monorepo_api
+    restart: always
+    volumes:
+      - ./api:/app/api
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+  nginx:
+    image: nginx:alpine
+    container_name: monorepo_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+      - client
+    links:
+      - api
+      - client

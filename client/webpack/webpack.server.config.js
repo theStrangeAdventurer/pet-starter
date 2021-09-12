@@ -10,7 +10,7 @@ module.exports = merge.merge(commonConfig, {
   target: 'node',
   externals: [nodeExternals()],
   output: {
-    filename: 'server.js',
+    filename: 'ssr.js',
     path: path.resolve(__dirname, '..', '..', 'dist'),
     libraryTarget: 'commonjs2',
   },

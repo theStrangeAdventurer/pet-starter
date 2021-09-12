@@ -1,0 +1,19 @@
+FROM node:16-alpine
+
+RUN yarn set version berry
+
+WORKDIR /app
+
+COPY package.json .
+COPY .yarnrc.yml .
+COPY lerna.json .
+COPY yarn.lock .
+COPY ./api ./api
+
+RUN yarn install
+RUN yarn build:api
+
+EXPOSE 3000
+
+CMD ["node", "dist/api"]
+
