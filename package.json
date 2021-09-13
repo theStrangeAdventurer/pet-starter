@@ -1,8 +1,7 @@
 {
   "name": "base-monorepo",
   "private": true,
-  "scripts": {
-    "docker:dev:up": "docker-compose -f docker/docker-compose.dev.yml up -d",
+  "scripts": {   
     "docker:up": "docker-compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker-compose -f docker/docker-compose.yml down",
     "build": "yarn clean && yarn build:client && yarn build:api",
@@ -11,8 +10,10 @@
     "clean": "rm -rf ./dist",
     "build:client": "lerna run build --scope=@app/client --stream",
     "build:api": "lerna run build --scope=@app/api --stream",
-    "dev": "concurrently --kill-others \"yarn dev:api\" \"node dist/ssr\" ",
-    "dev:api": "lerna run dev --scope=@app/api --stream"
+    "dev": "concurrently \"yarn docker:dev:up\" \"yarn dev:api\" \"yarn dev:client\" ",
+    "dev:api": "lerna run dev --scope=@app/api --stream",
+    "dev:client": "lerna run dev --scope=@app/client",
+    "docker:dev:up": "docker-compose -f docker/docker-compose.dev.yml up -d"
   },
   "workspaces": [
     "client",
