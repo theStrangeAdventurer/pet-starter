@@ -8,7 +8,7 @@ export const App = (props: any) => {
     }, 3000);
     fetch('/api')
       .then((response) => response.json())
-      .then((data) => console.log('Response from API!!!!',  data))
+      .then((data) => console.log('Response from API',  data))
       .catch((err) => {
         console.log('FAIL GET DATA FROM API', err);
       })

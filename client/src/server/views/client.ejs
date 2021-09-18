@@ -10,6 +10,22 @@
 <body>
   <div id="root"><%- jsx %></div>
   <%- scripts %>
+  <% if(liveReloadScript){ %>
+  <script defer>
+    const source = new EventSource('http://localhost:<%- liveReloadPort %>');
+
+    source.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.reload) {
+          location.reload();
+        }
+      } catch(err) {
+        console.log('Err parse data', err, event);
+      }
+    }
+  </script>
+  <% } %>
 </body>
 
 </html>

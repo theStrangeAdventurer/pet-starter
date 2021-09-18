@@ -5,4 +5,4 @@ import { App } from 'src/components/App';
 
 document.addEventListener('DOMContentLoaded', () => {
   hydrate(<App />, document.getElementById('root'));
-})
+});
