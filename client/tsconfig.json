@@ -1,18 +1,24 @@
 {
   "include": [
+    "@types/**/*",
     "src/components/**/*",
     "src/client/**/*",
-    "src/server/**/*",
+    "src/server/**/*"
   ],
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "module": "commonjs",
     "allowJs": true,
     "jsx": "react",
+    "typeRoots": [
+      "../node_modules/@types",
+      "./node_modules/@types",
+      "./@types"
+    ],
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "target": "es5",
+    "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -26,6 +32,7 @@
     }
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "../node_modules",
   ]
 }

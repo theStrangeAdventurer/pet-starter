@@ -6,14 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>React ssr</title>
 </head>
-
 <body>
   <div id="root"><%- jsx %></div>
+  <script>
+    window.__SSR_ROUTE__ = '<%- ssrRoute %>';
+  </script>
   <%- scripts %>
   <% if(liveReloadScript){ %>
   <script defer>
     const source = new EventSource('http://localhost:<%- liveReloadPort %>');
-
     source.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);

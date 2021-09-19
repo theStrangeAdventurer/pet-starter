@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { hydrate } from 'react-dom';
-import { App } from 'src/components/App';
+import { AppWrapper } from '../app-wrapper';
 
 document.addEventListener('DOMContentLoaded', () => {
-  hydrate(<App />, document.getElementById('root'));
+  hydrate(<AppWrapper route={window.__SSR_ROUTE__ || '/'}/>, document.getElementById('root'));
 });
