@@ -9,7 +9,7 @@
 <body>
   <div id="root"><%- jsx %></div>
   <script>
-    window.__SSR_ROUTE__ = '<%- ssrRoute %>';
+    window.__ROUTES__ = JSON.parse('<%- routes %>');
   </script>
   <%- scripts %>
   <% if(liveReloadScript){ %>

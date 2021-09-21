@@ -5,6 +5,8 @@ import fs from 'fs';
 import path from 'path';
 import { preparePages } from './utils/prepare-pages';
 import { AppWrapper } from '../app-wrapper';
+import { matchRoute } from './utils/match-route';
+import { getRegexpFromPath } from './utils/get-regexp-from-path';
 
 const ejs = require("ejs").__express;
 
@@ -16,10 +18,12 @@ const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
 const manifest: Buffer = fs.readFileSync(assetsManifest);
 const parsedManifest = JSON.parse(manifest.toString());
 const pages = preparePages(path.resolve(__dirname, 'pages'));
-
-console.log('PAGES', pages);
-
+const pagesWithRegexps = pages.reduce((acc, page) => {
+  acc[page] = getRegexpFromPath(page);
+  return acc;
+}, {} as { [key: string]: RegExp })
 const chunks = Object.keys(parsedManifest).filter(f => f.indexOf('.map') === -1);
+console.log('pagesWithRegexps', pagesWithRegexps);
 
 chunks.forEach(filename => {
   jsFiles.push('/public/' + parsedManifest[filename])
@@ -37,8 +41,15 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.get("*", (req, res) => {
   const jsx = renderToString(<AppWrapper route={req.path} />);
+  const currentRoute = matchRoute(req.path, pagesWithRegexps);
+  const routes = JSON.stringify({
+      current: currentRoute,
+      reqPath: req.path,
+      pages,
+  });
+  console.log('routes', routes);
   res.render('client', {
-    ssrRoute: req.path, 
+    routes,
     jsx, 
     scripts,
     liveReloadPort: process.env.LIVE_RELOAD_PORT,

@@ -1,3 +1,7 @@
 interface Window {
-  __SSR_ROUTE__: string;
+  __ROUTES__: {
+    current: string;
+    reqPath: string;
+    pages: string[];
+  };
 }
