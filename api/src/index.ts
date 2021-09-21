@@ -3,7 +3,11 @@ import express from "express";
 const app = express();
 
 app.get("/api", (req, res) => {
-  res.send({ data: "Hello from API updated" });
+  res.send({ data: "Hello from API" });
+});
+
+app.get("/api/details/:id", (req, res) => {
+  res.send({ data: "Hello from detail API" + req.params.id });
 });
 
 app.listen(3000, () => {

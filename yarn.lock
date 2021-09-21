@@ -36,9 +36,7 @@ __metadata:
     ejs: ^3.1.6
     express: ^4.17.1
     friendly-errors-webpack-plugin: ^1.7.0
-    livereload: ^0.9.3
     node-fetch: ^3.0.0
-    nodemon: ^2.0.12
     react: ^17.0.2
     react-dom: ^17.0.2
     request: 2.79.0
@@ -2320,7 +2318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.2.2, chokidar@npm:^3.5.0":
+"chokidar@npm:^3.2.2":
   version: 3.5.2
   resolution: "chokidar@npm:3.5.2"
   dependencies:
@@ -4971,27 +4969,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"livereload-js@npm:^3.3.1":
-  version: 3.3.2
-  resolution: "livereload-js@npm:3.3.2"
-  checksum: 72121395b54f338f0aaf33542a062b7ecfd886f472cb8acb174635011bf29ccc689e5861427431c115d445239498dbbcd070a37c0c8b9561606ebc90c579afbd
-  languageName: node
-  linkType: hard
-
-"livereload@npm:^0.9.3":
-  version: 0.9.3
-  resolution: "livereload@npm:0.9.3"
-  dependencies:
-    chokidar: ^3.5.0
-    livereload-js: ^3.3.1
-    opts: ">= 1.2.0"
-    ws: ^7.4.3
-  bin:
-    livereload: bin/livereload.js
-  checksum: c5d62a974f7206bad7f2f49f64efa28817132b3528d24eff5940ee392ca32464bb8a546fa6205bc31b372feee5ccf223ce440c70e765c2ae8955d1108a0a66d8
-  languageName: node
-  linkType: hard
-
 "load-json-file@npm:^4.0.0":
   version: 4.0.0
   resolution: "load-json-file@npm:4.0.0"
@@ -5950,13 +5927,6 @@ fsevents@~2.3.2:
   dependencies:
     mimic-fn: ^2.1.0
   checksum: 2478859ef817fc5d4e9c2f9e5728512ddd1dbc9fb7829ad263765bb6d3b91ce699d6e2332eef6b7dff183c2f490bd3349f1666427eaba4469fba0ac38dfd0d34
-  languageName: node
-  linkType: hard
-
-"opts@npm:>= 1.2.0":
-  version: 2.0.2
-  resolution: "opts@npm:2.0.2"
-  checksum: 9389c32a4df53bedb6142181c83e6d05d88bc564b813caf965d94df214b479ae3bbd91fe8f4c291851236caae289db479f6c09389e969eb8fbd7c78cac7b5311
   languageName: node
   linkType: hard
 
@@ -8530,21 +8500,6 @@ typescript@^4.4.2:
     type-fest: ^0.4.1
     write-json-file: ^3.2.0
   checksum: 7864d44370f42a6761f6898d07ee2818c7a2faad45116580cf779f3adaf94e4bea5557612533a6c421c32323253ecb63b50615094960a637aeaef5df0fd2d6cd
-  languageName: node
-  linkType: hard
-
-"ws@npm:^7.4.3":
-  version: 7.5.5
-  resolution: "ws@npm:7.5.5"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: bd2b437256012af526c69c03d6670a132e7ab0fe5853f3b7092826acea4203fad4ee2a8d0d9bd44834b2b968e747bf34f753ab535f4a3edf40d262da4b1d0805
   languageName: node
   linkType: hard
 
