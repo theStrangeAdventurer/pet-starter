@@ -1,4 +1,10 @@
-export function matchRoute(reqPath: string, pages: { [key: string]: RegExp }) {
+export function matchRoute(
+  reqPath: string,
+  pages: { [key: string]: RegExp }
+): {
+  route: string;
+  params: { [key: string]: string };
+} {
   const page = pages[reqPath];
   if (page) {
     return {
@@ -16,9 +22,16 @@ export function matchRoute(reqPath: string, pages: { [key: string]: RegExp }) {
         route: page,
         params: match.groups,
       };
-
       break;
+    } else {
+      match = null;
     }
+  }
+  if (!match) {
+    match = {
+      route: "/404",
+      params: {},
+    };
   }
   return match;
 }

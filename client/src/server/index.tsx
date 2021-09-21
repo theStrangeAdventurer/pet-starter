@@ -42,13 +42,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.get("*", (req, res) => {
   const jsx = renderToString(<AppWrapper route={req.path} />);
   const currentRoute = matchRoute(req.path, pagesWithRegexps);
+  const status = currentRoute.route !== '/404' ? 200 : 404;
   const routes = JSON.stringify({
       current: currentRoute,
       reqPath: req.path,
       pages,
   });
-  console.log('routes', routes);
-  res.render('client', {
+  res.status(status).render('client', {
     routes,
     jsx, 
     scripts,
