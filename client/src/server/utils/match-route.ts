@@ -1,6 +1,6 @@
 export function matchRoute(
   reqPath: string,
-  pages: { [key: string]: RegExp }
+  pages: { [key: string]: { regexp: RegExp } }
 ): {
   route: string;
   params: { [key: string]: string };
@@ -12,26 +12,27 @@ export function matchRoute(
       params: {},
     };
   }
-  let match = null;
+  let result = null;
   for (const page in pages) {
-    const re = pages[page];
-    match = re.exec(reqPath);
+    if (result) {
+      continue;
+    }
+    const re = pages[page].regexp;
+    const match = re.exec(reqPath);
 
     if (match?.groups) {
-      match = {
+      result = {
         route: page,
         params: match.groups,
       };
       break;
-    } else {
-      match = null;
     }
   }
-  if (!match) {
-    match = {
+  if (!result) {
+    result = {
       route: "/404",
       params: {},
     };
   }
-  return match;
+  return result;
 }

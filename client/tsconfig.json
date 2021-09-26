@@ -1,9 +1,7 @@
 {
   "include": [
     "@types/**/*",
-    "src/components/**/*",
-    "src/client/**/*",
-    "src/server/**/*"
+    "src/**/*",
   ],
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],

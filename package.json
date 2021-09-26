@@ -10,7 +10,7 @@
     "clean": "rm -rf ./dist",
     "build:client": "lerna run build --scope=@app/client --stream",
     "build:api": "lerna run build --scope=@app/api --stream",
-    "dev": "yarn clean && concurrently \"yarn docker:dev:up\" \"yarn dev:client\" ",
+    "dev": "yarn clean && concurrently \"yarn docker:dev:up\" \"yarn dev:client\" \"yarn dev:api\" ",
     "dev:api": "lerna run dev --scope=@app/api --stream",
     "dev:client": "lerna run dev --scope=@app/client --stream",
     "docker:dev:up": "docker-compose -f docker/docker-compose.dev.yml up -d"

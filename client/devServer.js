@@ -58,15 +58,30 @@ compiler.watch({}, (err, stats) => {
   console.log(stats?.toString('minimal'))
   const compiledSuccessfully = !stats?.hasErrors()
   if (compiledSuccessfully && !node) {
-    console.log('Starting Node.js ...');
+    /**
+     * Compile pages for import ssr funcs in src/server/index.tsx
+     */
+    spawn.sync(
+      'node',
+      [path.join(__dirname, './scripts/compile-pages.js')],
+      {
+        stdio: 'inherit',
+      }
+    );
+
     if (client) {
       setTimeout(() => {
+        console.log('🔄 Reloading your browser');
         client.write(`data: ${JSON.stringify({ reload: true })}\n`);
         client.write(`id: ${++messageId}\n`);
         client.write(`\n`); 
       }, 300); // Timeout for start node server
     }
 
+    /**
+     * spawn new node process with updated scripts
+     */
+    console.log('🦸 Spawn new NodeJS ssr instance ...');
     node = spawn(
       'node',
       ['--inspect', path.join(__dirname, '../dist/ssr.js')],
@@ -74,6 +89,5 @@ compiler.watch({}, (err, stats) => {
         stdio: 'inherit',
       }
     );
-
   }
 })

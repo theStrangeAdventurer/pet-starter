@@ -5,7 +5,7 @@
   "main": "../dist/server.js",
   "scripts": {
     "dev": "node devServer",
-    "build": "webpack --config webpack/webpack.server.config.js && webpack --config webpack/webpack.client.config.js"
+    "build": "node scripts/webpack-build"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "@types/node": "^16.7.11",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "@types/require-from-string": "^1.2.1",
     "clean-webpack-plugin": "^4.0.0",
     "connect-livereload": "^0.6.1",
     "copy-webpack-plugin": "^9.0.1",
@@ -32,11 +33,13 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "node-fetch": "^3.0.0",
+    "node-cache": "^5.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "request": "2.79.0"
+    "request": "2.79.0",
+    "require-from-string": "^2.0.2"
   }
 }

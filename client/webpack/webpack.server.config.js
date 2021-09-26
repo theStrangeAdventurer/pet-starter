@@ -23,7 +23,6 @@ module.exports = merge.merge(commonConfig, {
     new CopyPlugin({
       patterns: [
         { context: path.resolve('src', 'server'), from: 'views', to: 'views' },
-        { context: path.resolve('src'), from: 'pages', to: 'pages' }
       ],
     }),
   ]

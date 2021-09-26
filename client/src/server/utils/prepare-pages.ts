@@ -15,7 +15,5 @@ export function preparePages(pagesPath: string) {
       }
     }
   }
-  return pages
-    .filter(Boolean)
-    .map((p) => `/${p.replace(/(index|\.tsx)/g, "")}`);
+  return pages.filter(Boolean).map((p) => `/${p.replace(/(index|\.js)/g, "")}`);
 }

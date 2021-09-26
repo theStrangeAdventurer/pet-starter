@@ -2,13 +2,12 @@ import React from 'react';
 import {App} from './components/App';
 
 interface AppWrapperProps {
-  route: string;
+  data: CommonPageProps;
 }
 
 export function AppWrapper(props: AppWrapperProps) {
-  // const { route } = props;
+  const { data } = props;
   return <>
-    <h1>AppWrapper</h1>
-    <App />
+    <App {...data} />
   </>
 }
