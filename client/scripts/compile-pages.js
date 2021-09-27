@@ -2,6 +2,7 @@ const ts = require("typescript");
 const fs = require("fs");
 const path = require('path');
 const { ModuleResolutionKind, ModuleKind, ScriptTarget, JsxEmit } = ts;
+const { preparePages } = require('./utils/prepare-pages');
 
 const tsConfig = {
   moduleResolution: ModuleResolutionKind.NodeJs,
@@ -18,25 +19,6 @@ const tsConfig = {
   skipLibCheck: true,
   jsx: JsxEmit.React,
   noEmitOnError: false,
-}
-
-function preparePages(pagesPath) {
-  let pages = fs.readdirSync(pagesPath);
-  for (let i = 0; i < pages.length; i++) {
-    const page = pages[i];
-    const fullPath = path.resolve(pagesPath, page);
-    const pageIsDir = fs.lstatSync(fullPath).isDirectory();
-    if (pageIsDir) {
-      const innerPages = fs.readdirSync(fullPath);
-      delete pages[i];
-      for (const innerPage of innerPages) {
-        pages.push(`${page}/${innerPage}`);
-      }
-    }
-  }
-  return pages
-    .filter(Boolean)
-    .map((p) => `${pagesPath}/${p}`);
 }
 
 const pages = preparePages(path.resolve(__dirname, '../src/pages'));

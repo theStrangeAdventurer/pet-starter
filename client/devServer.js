@@ -41,6 +41,16 @@ const compiler = webpack([
 ])
 
 let node
+/**
+ * Generate pages-config first time before webpack will build
+ */
+spawn.sync(
+  'node',
+  [path.join(__dirname, './scripts/generate-pages-config.js')],
+  {
+    stdio: 'inherit',
+  }
+);
 
 compiler.hooks.watchRun.tap('Dev', (compiler) => {
   console.log(`Compiling ${compiler.name} ...`)
@@ -55,7 +65,6 @@ compiler.watch({}, (err, stats) => {
     console.error(err)
     process.exit(1)
   }
-  console.log(stats?.toString('minimal'))
   const compiledSuccessfully = !stats?.hasErrors()
   if (compiledSuccessfully && !node) {
     /**
