@@ -67,17 +67,6 @@ compiler.watch({}, (err, stats) => {
   }
   const compiledSuccessfully = !stats?.hasErrors()
   if (compiledSuccessfully && !node) {
-    /**
-     * Compile pages for import ssr funcs in src/server/index.tsx
-     */
-    spawn.sync(
-      'node',
-      [path.join(__dirname, './scripts/compile-pages.js')],
-      {
-        stdio: 'inherit',
-      }
-    );
-
     if (client) {
       setTimeout(() => {
         console.log('🔄 Reloading your browser');

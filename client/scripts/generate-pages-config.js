@@ -4,7 +4,20 @@ const { preparePages } = require('./utils/prepare-pages');
 
 const pages = preparePages(path.resolve(__dirname, '../src/pages'));
 
-let configFileStr = '/* Do not change this file, it is generated automatically */\n';
+const pagesWithGetSSRProps = {};
+
+for (const page of pages) {
+  const fileStr = fs.readFileSync(page).toString();
+  if (fileStr.includes('export const getSSRProps'))
+    pagesWithGetSSRProps[page] = true;
+}
+
+let configFileStr = `
+/* Do not change this file, it is generated automatically */
+import { getRegexpFromPath } from './utils/get-regexp-from-path';
+
+`;
+
 const specialPagesAliases = {
   '404.tsx': 'NotFoundPage',
   'index.tsx': 'MainPage',
@@ -33,19 +46,33 @@ const getPageComponentName = (filename) => {
 
 const pagesImportsData = pages.map((page) => {
   const [, pageFileName] = page.split('pages/');
+  const hasGetSSRProps = pagesWithGetSSRProps[page];
   return [
     getPageComponentName(pageFileName), // import name for pages-config.gen.ts
     "./pages/" + pageFileName.replace('.tsx', ''), // import path for pages-config.gen.ts
-    getPageRouteByPath(page) // export route key for PageComponent in pages-config.gen.ts
+    getPageRouteByPath(page), // export route key for PageComponent in pages-config.gen.ts
+    hasGetSSRProps
   ];
 });
 
 configFileStr += pagesImportsData.reduce((acc, current) => {
-  const [ComponentName, importPath] = current;
-  return acc + `import ${ComponentName} from "${importPath}";\n`
+  const [ComponentName, importPath, , hasGetSSRProps] = current;
+  return acc + `import ${ComponentName}${
+    hasGetSSRProps ? `, { getSSRProps as ${ComponentName}GetSSRProps }` : ''
+  } from "${importPath}";\n`
 }, '');
 
-configFileStr += '\n\nexport const PageComponents = {\n';
+configFileStr += '\n\nexport const PagesGetSSRPropsHandlers = {\n';
+configFileStr += pagesImportsData.reduce((acc, current) => {
+  const [ComponentName, , route, hasGetSSRProps] = current;
+  if (!hasGetSSRProps) {
+    return acc;
+  }
+  return acc + `\t"${route}": ${ComponentName}GetSSRProps,\n`
+}, '');
+configFileStr += '\n};';
+
+configFileStr += '\n\nexport const PagesComponents = {\n';
 
 configFileStr += pagesImportsData.reduce((acc, current) => {
   const [ComponentName, , route] = current;
@@ -53,6 +80,15 @@ configFileStr += pagesImportsData.reduce((acc, current) => {
 }, '');
 
 configFileStr += '\n};';
+configFileStr += `
+export type PagePaths = keyof typeof PagesComponents;
+
+export const RoutesRegexp: [RegExp, PagePaths][] = Object.keys(
+  PagesComponents
+).map((current: PagePaths) => {
+  return [getRegexpFromPath(current), current];
+});
+`;
 
 const pageGenConfigFile = path.resolve(__dirname, '..', 'src', 'pages-config.gen.ts');
 fs.writeFileSync(pageGenConfigFile, configFileStr);

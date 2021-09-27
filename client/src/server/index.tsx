@@ -3,13 +3,11 @@ import React from 'react';
 import { renderToString } from "react-dom/server";
 import fs from 'fs';
 import path from 'path';
-import requireFromString from 'require-from-string';
 const ejs = require("ejs").__express;
 
-import { preparePages } from './utils/prepare-pages';
 import { AppWrapper } from '../app-wrapper';
-import { matchRoute } from './utils/match-route';
-import { getRegexpFromPath } from './utils/get-regexp-from-path';
+import { matchRoute } from '../utils/match-route';
+import { PagesGetSSRPropsHandlers, RoutesRegexp } from 'src/pages-config.gen';
 
 const app = express();
 const jsFiles: string[] = [];
@@ -17,8 +15,6 @@ const assetsFolder = path.resolve(__dirname, 'public');
 const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
 const manifest: Buffer = fs.readFileSync(assetsManifest);
 const parsedManifest = JSON.parse(manifest.toString());
-const pagesPath = path.resolve(__dirname, 'pages');
-const pages = preparePages(pagesPath);
 const chunks = Object.keys(parsedManifest).filter(f => f.indexOf('.map') === -1);
 
 chunks.forEach(filename => {
@@ -28,21 +24,14 @@ chunks.forEach(filename => {
 const scripts = jsFiles.map((script) => `<script class="react-script" defer="defer" src="${script}"></script>`).join('\n');
 
 ;(async function main() {
-  const pagesWithRegexps: { [page: string]: { regexp: RegExp, getSSRProps?: GetSSRProps } } = {};
-  for (const page of pages) {
-    const isIndex = page === '/';
-    const fileStr = fs.readFileSync(`${__dirname}/pages${isIndex ? '/index' : page}.js`).toString();
-    const { getSSRProps } : { getSSRProps: GetSSRProps } = requireFromString(fileStr);
-    pagesWithRegexps[page] = { regexp: getRegexpFromPath(page), getSSRProps };
-  }
-
+ 
   app.use('/public', express.static(assetsFolder));
   app.set('view engine', 'ejs');
   app.engine('ejs', ejs);
   app.set('views', path.join(__dirname, 'views'));
   app.get("*", async (req, res) => {
-    const currentRoute = matchRoute(req.path, pagesWithRegexps);
-    const getSSRProps = pagesWithRegexps[currentRoute.route]?.getSSRProps;
+    const currentRoute = matchRoute(req.path, RoutesRegexp);
+    const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
     let ssrData: unknown;
     if (getSSRProps) {
       ssrData = await getSSRProps(currentRoute.params);
@@ -56,7 +45,7 @@ const scripts = jsFiles.map((script) => `<script class="react-script" defer="def
     const routes = JSON.stringify({
         current: currentRoute,
         reqPath: req.path,
-        pages,
+        pages: RoutesRegexp.map(([, route]) => route),
     });
     res.status(status).render('client', {
       ssrData: JSON.stringify(ssrData || {}),

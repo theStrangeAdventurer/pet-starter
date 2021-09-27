@@ -1,11 +1,13 @@
+import { RoutesRegexp } from "src/pages-config.gen";
+
 export function matchRoute(
   reqPath: string,
-  pages: { [key: string]: { regexp: RegExp } }
+  routesRegexp: typeof RoutesRegexp
 ): {
   route: string;
   params: { [key: string]: string };
 } {
-  const page = pages[reqPath];
+  const page = routesRegexp.find(([, route]) => route === reqPath);
   if (page) {
     return {
       route: reqPath,
@@ -13,19 +15,17 @@ export function matchRoute(
     };
   }
   let result = null;
-  for (const page in pages) {
+
+  for (const [re, route] of routesRegexp) {
     if (result) {
       continue;
     }
-    const re = pages[page].regexp;
     const match = re.exec(reqPath);
-
     if (match?.groups) {
       result = {
-        route: page,
+        route,
         params: match.groups,
       };
-      break;
     }
   }
   if (!result) {

@@ -20,7 +20,8 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       'components': path.resolve(__dirname, '..', 'src', 'components'),
-      'src': path.resolve(__dirname, '..', 'src')
+      'src': path.resolve(__dirname, '..', 'src'),
+      '@core': path.resolve(__dirname, '..', 'src', '@core')
     }
   }, 
   plugins: [

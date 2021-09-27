@@ -30,15 +30,5 @@ webpack([
   const finish = +new Date();
   console.log(stats?.toString('minimal'));
   console.log(`🎉 Webpack production build completed! [${((finish - start) / 1000)} seconds]`);
-  /**
-   * Compile pages for import ssr funcs in src/server/index.tsx
-   */
-  spawn.sync(
-    'node',
-    [path.join(__dirname, './compile-pages.js')],
-    {
-      stdio: 'inherit',
-    }
-  );
   console.log('😎 Build ready for start!');
 });

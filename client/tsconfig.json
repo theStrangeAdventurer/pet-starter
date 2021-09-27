@@ -23,6 +23,9 @@
     "outDir": "../dist",
     "baseUrl": ".",
     "paths": {
+      "@core": [
+        "./src/@core"
+      ],
       "src": [
         "./src"
       ],

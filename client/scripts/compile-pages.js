@@ -1,5 +1,4 @@
 const ts = require("typescript");
-const fs = require("fs");
 const path = require('path');
 const { ModuleResolutionKind, ModuleKind, ScriptTarget, JsxEmit } = ts;
 const { preparePages } = require('./utils/prepare-pages');
@@ -7,13 +6,13 @@ const { preparePages } = require('./utils/prepare-pages');
 const tsConfig = {
   moduleResolution: ModuleResolutionKind.NodeJs,
   module: ModuleKind.CommonJS,
-  target: ScriptTarget.ES5,
+  target: ScriptTarget.ES2018,
   declaration: false,
   removeComments: true,
   emitDecoratorMetadata: false,
   experimentalDecorators: false,
   sourceMap: false,
-  outDir: "../dist/pages",
+  outDir: "../dist",
   baseUrl: "../client",
   allowJs: false,
   skipLibCheck: true,
