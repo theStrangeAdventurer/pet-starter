@@ -1,8 +1,6 @@
-const path = require('path')
 const webpack = require('webpack')
 const webpackConfigClient = require('../webpack/webpack.client.config')
 const webpackConfigServer = require('../webpack/webpack.server.config')
-const spawn = require('cross-spawn')
 require('dotenv').config();
 
 console.log('Stat webpack build...');
