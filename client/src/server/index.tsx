@@ -26,37 +26,37 @@ const scripts = jsFiles.map((script) => `<script class="react-script" defer="def
 const cssLinks = cssFiles.map((link) => `<link rel="stylesheet" href="/public/${link}">`).join('\n');
 
 app.use('/public', express.static(assetsFolder));
-  app.set('view engine', 'ejs');
-  app.engine('ejs', ejs);
-  app.set('views', path.join(__dirname, 'views'));
-  app.get("*", async (req, res) => {
-    const currentRoute = matchRoute(req.path, RoutesRegexp);
-    const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
-    let ssrData: unknown;
-    if (getSSRProps) {
-      ssrData = await getSSRProps(currentRoute.params);
-    }
-    
-    const jsx = renderToString(<AppWrapper data={{
-      ...currentRoute, 
-      ssrData
-    }} />);
-    const status = currentRoute.route !== '/404' ? 200 : 404;
-    const routes = JSON.stringify({
-        current: currentRoute,
-        reqPath: req.path,
-        pages: RoutesRegexp.map(([, route]) => route),
-    });
-    res.status(status).render('client', {
-      ssrData: JSON.stringify(ssrData || {}),
-      routes,
-      jsx, 
-      scripts,
-      cssLinks,
-      liveReloadPort: process.env.LIVE_RELOAD_PORT,
-      liveReloadScript: process.env.NODE_ENV === 'development'
-    });
+app.set('view engine', 'ejs');
+app.engine('ejs', ejs);
+app.set('views', path.join(__dirname, 'views'));
+app.get("*", async (req, res) => {
+  const currentRoute = matchRoute(req.path, RoutesRegexp);
+  const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
+  let ssrData: unknown;
+  if (getSSRProps) {
+    ssrData = await getSSRProps(currentRoute.params);
+  }
+  
+  const jsx = renderToString(<AppWrapper data={{
+    ...currentRoute, 
+    ssrData
+  }} />);
+  const status = currentRoute.route !== '/404' ? 200 : 404;
+  const routes = JSON.stringify({
+      current: currentRoute,
+      reqPath: req.path,
+      pages: RoutesRegexp.map(([, route]) => route),
   });
-  app.listen(process.env.PORT, () => {
-    console.log(`SSR server started on port ${process.env.PORT} 🚀`);
+  res.status(status).render('client', {
+    ssrData: JSON.stringify(ssrData || {}),
+    routes,
+    jsx, 
+    scripts,
+    cssLinks,
+    liveReloadPort: process.env.LIVE_RELOAD_PORT,
+    liveReloadScript: process.env.NODE_ENV === 'development'
   });
+});
+app.listen(process.env.PORT, () => {
+  console.log(`SSR server started on port ${process.env.PORT} 🚀`);
+});
