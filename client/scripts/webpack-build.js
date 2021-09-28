@@ -28,5 +28,4 @@ webpack([
   const finish = +new Date();
   console.log(stats?.toString('minimal'));
   console.log(`🎉 Webpack production build completed! [${((finish - start) / 1000)} seconds]`);
-  console.log('😎 Build ready for start!');
 });

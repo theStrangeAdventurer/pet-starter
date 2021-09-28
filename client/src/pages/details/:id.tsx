@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
+import './detailsId.css';
 
 export const getSSRProps = async (params: RouteParams = {}) => {
   const response = await axios.get(`/api/details/${params.id}`);
@@ -13,7 +14,7 @@ const DetailsPage = (props: any) => {
   }, []);
 
   return (
-    <div>
+    <div className="detail">
       <h1>DetailsPage</h1>
     </div>
   )

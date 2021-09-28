@@ -3,7 +3,7 @@ const commonConfig = require('./webpack.common.config');
 const { merge } = require('webpack-merge');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(commonConfig, {
   name: 'client',
@@ -22,8 +22,21 @@ module.exports = merge(commonConfig, {
     libraryTarget: 'umd',
     publicPath: '',
   },
+  module: {
+    rules: [
+      {
+        test: /\.css?$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
+        exclude: /node_modules/,
+      },
+    ],
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new WebpackManifestPlugin(),
+    new MiniCssExtractPlugin(),
   ]
 }) ;

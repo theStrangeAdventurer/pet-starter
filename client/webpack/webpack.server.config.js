@@ -9,6 +9,17 @@ module.exports = merge.merge(commonConfig, {
   entry: [
     './src/server/index.tsx'
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css?$/,
+        use: [
+          'null-loader',
+        ],
+        exclude: /node_modules/,
+      },
+    ],
+  },
   target: 'node',
   node: {
     __dirname: false,

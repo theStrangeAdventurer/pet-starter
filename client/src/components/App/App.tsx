@@ -1,18 +1,10 @@
 import React from 'react'
-import DetailsPage from 'src/pages/details/:id';
-import MainPage from 'src/pages/index';
+import './App.css';
 
-export const App = (props: CommonPageProps) => {
-  const renderContent = () => {
-    if (props.route === "/details/:id") {
-      return <DetailsPage {...props} />
-    }
-    return <MainPage {...props}/>
-  }
-
+export const App = () => {
   return (
-    <div>
-      {renderContent()}
+    <div className="app">
+      <h1>App component</h1>
     </div>
   )
 }

@@ -15,17 +15,17 @@ const assetsFolder = path.resolve(__dirname, 'public');
 const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
 const manifest: Buffer = fs.readFileSync(assetsManifest);
 const parsedManifest = JSON.parse(manifest.toString());
-const chunks = Object.keys(parsedManifest).filter(f => f.indexOf('.map') === -1);
+const chunks = Object.keys(parsedManifest).filter(f => !/(\.map|\.css)/g.test(f));
+const cssFiles = Object.keys(parsedManifest).filter(f => !/(\.map|\.js)/g.test(f));
 
 chunks.forEach(filename => {
   jsFiles.push('/public/' + parsedManifest[filename])
 });
 
 const scripts = jsFiles.map((script) => `<script class="react-script" defer="defer" src="${script}"></script>`).join('\n');
+const cssLinks = cssFiles.map((link) => `<link rel="stylesheet" href="/public/${link}">`).join('\n');
 
-;(async function main() {
- 
-  app.use('/public', express.static(assetsFolder));
+app.use('/public', express.static(assetsFolder));
   app.set('view engine', 'ejs');
   app.engine('ejs', ejs);
   app.set('views', path.join(__dirname, 'views'));
@@ -52,6 +52,7 @@ const scripts = jsFiles.map((script) => `<script class="react-script" defer="def
       routes,
       jsx, 
       scripts,
+      cssLinks,
       liveReloadPort: process.env.LIVE_RELOAD_PORT,
       liveReloadScript: process.env.NODE_ENV === 'development'
     });
@@ -59,4 +60,3 @@ const scripts = jsFiles.map((script) => `<script class="react-script" defer="def
   app.listen(process.env.PORT, () => {
     console.log(`SSR server started on port ${process.env.PORT} 🚀`);
   });
-})();
