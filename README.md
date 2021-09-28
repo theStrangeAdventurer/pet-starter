@@ -1,0 +1,72 @@
+# 🐶 Pet Starter
+
+What is the problem? I have an idea of another application, but I constantly have to deal with similar problems: the choice of a router, insufficient configurability of existing solutions, the frontend code lives separately from the backend (in different repositories, although at the initial stage I want everything to be close in one place).
+
+This is the basic template for a mono repository, which includes a client application with server rendering on React and an api server on Node.js. Both applications are written in typescript, and all configuration files are provided for modification. This project is designed to help those who want to quickly start their project, test any hypothesis, and for those who lack existing solutions for static generation of sites or projects with server side rendering that cover only the frontend part of the project.
+
+## What has already been implemented?
+
+- SSR (Server side rendering)
+- webpack watch with browser live reload(via the Server Sent Events)
+- css modules
+- routing based on the file structure - just create a file in the `pages` directory and after launching `yarn dev`, you will have a new route (for example, if you create a file `/pages/detail/:someParam.tsx`, this page will open in browser for requests `/detail/whateverParamValue123`)
+- Getting data on the server is implemented by adding the exported `getSSRProps` function, for example:
+
+```ts
+import axios from "axios";
+
+export const getSSRProps = async (params: RouteParams = {}) => {
+  const response = await axios.get(`/api/details/${params.id}`);
+  // `response.data` will be available in the `ssrData` prop of the page component after rendering
+  return response.data;
+};
+```
+
+- Requests that are sent to `/api/*` will be proxied by `nginx` (which runs in docker) to the express server, which is located in the api folder. You can replace it with something that is convenient for you, the main thing is not to forget to fix the respective `scripts` in `package.json` files in the root folder and `package.json` which located in `/api/` folder.
+
+## How do I get started ?
+
+First, you need `docker` and `docker-compose` installed on your machine to run the project, otherwise the requests will not be proxied to `api express server` which located in api folder
+
+You also need installed yarn (checked on version 3 yarn) on your machine, cause this monorepo used yarn workspaces.
+
+- How to install docker on Mac - https://docs.docker.com/desktop/mac/install/
+- How to install docker on Windows - https://docs.docker.com/desktop/windows/install/
+- How to install Docker on Ubuntu (https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04) and how to install docker-compose on Ubuntu(https://phoenixnap.com/kb/install-docker-compose-on-ubuntu-20-04)
+
+If `docker` and `dokker-compose` (Docker Desktop) are already installed, just open terminal and:
+
+```sh
+git clone git@github.com:alexej3ajtsev/pet-starter.git /path/to/your/project
+
+cd /path/to/your/project
+
+yarn
+
+yarn dev
+
+```
+
+After these commands you can open your browser at `http://localhost` see that everything works!
+
+## How to build for production ?
+
+If you want just check that webpack build is running correctly, you need run in root folder
+
+```sh
+yarn build
+```
+
+If you want build production build with all services in docker containers you need run
+
+```sh
+yarn docker:up
+```
+
+All nginx configurations located in `nginx` folder and all docker files located in `docker` folder, You can configure everything as you need with these files.
+
+## How configure webpack configurations ?
+
+Client SSR app used webpack for build and it's configurations located in `client/webpack` folder, you can change it as you need, also you can modify `client/tsconfig.json`
+
+Api express server build going through `tsconfig.json` configuration file, which is located in `api/tsconfig.json`
