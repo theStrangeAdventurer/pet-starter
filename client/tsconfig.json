@@ -1,5 +1,6 @@
 {
   "include": [
+    "declaration.d.ts",
     "@types/**/*",
     "src/**/*",
   ],

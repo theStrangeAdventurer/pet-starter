@@ -12,12 +12,13 @@ module.exports = merge.merge(commonConfig, {
   module: {
     rules: [
       {
-        test: /\.css?$/,
+        test: /\.css$/,
         use: [
           'null-loader',
+          'css-loader'
         ],
-        exclude: /node_modules/,
-      },
+        exclude: /\.module\.css$/
+      }
     ],
   },
   target: 'node',

@@ -8,22 +8,14 @@ const ejs = require("ejs").__express;
 import { AppWrapper } from '../app-wrapper';
 import { matchRoute } from '../utils/match-route';
 import { PagesGetSSRPropsHandlers, RoutesRegexp } from 'src/pages-config.gen';
+import { prepareAssetsHtml } from './utils/prepare-assets-html';
 
 const app = express();
-const jsFiles: string[] = [];
 const assetsFolder = path.resolve(__dirname, 'public');
 const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
 const manifest: Buffer = fs.readFileSync(assetsManifest);
 const parsedManifest = JSON.parse(manifest.toString());
-const chunks = Object.keys(parsedManifest).filter(f => !/(\.map|\.css)/g.test(f));
-const cssFiles = Object.keys(parsedManifest).filter(f => !/(\.map|\.js)/g.test(f));
-
-chunks.forEach(filename => {
-  jsFiles.push('/public/' + parsedManifest[filename])
-});
-
-const scripts = jsFiles.map((script) => `<script class="react-script" defer="defer" src="${script}"></script>`).join('\n');
-const cssLinks = cssFiles.map((link) => `<link rel="stylesheet" href="/public/${link}">`).join('\n');
+const { jsScriptsHtml, cssLinkshtml } = prepareAssetsHtml(parsedManifest);
 
 app.use('/public', express.static(assetsFolder));
 app.set('view engine', 'ejs');
@@ -51,8 +43,8 @@ app.get("*", async (req, res) => {
     ssrData: JSON.stringify(ssrData || {}),
     routes,
     jsx, 
-    scripts,
-    cssLinks,
+    scripts: jsScriptsHtml,
+    cssLinks: cssLinkshtml,
     liveReloadPort: process.env.LIVE_RELOAD_PORT,
     liveReloadScript: process.env.NODE_ENV === 'development'
   });

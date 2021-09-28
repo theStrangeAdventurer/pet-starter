@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
-import { RouterContext } from 'src/@core/context/RouterContext';
-import { RoutesRegexp } from 'src/pages-config.gen';
-import { matchRoute } from 'src/utils/match-route';
+import React from 'react';
+import { useNavigate } from 'src/@core/hooks/use-navigate';
 
 interface LinkProps {
   to: string;
   children: React.ReactChild;
   className?: string;
+  title?: string;
 }
 
 export const Link = (props: LinkProps) => {
-  const { setRoute } = useContext(RouterContext);
+  const navigate = useNavigate();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -18,10 +17,13 @@ export const Link = (props: LinkProps) => {
       window.open(props.to);
       return;
     }
-    window.__ROUTES__.current = matchRoute(props.to, RoutesRegexp);
-    window.__SSR_DATA__ = {};
-    history.pushState({ route: window.__ROUTES__.current.route }, '', props.to);
-    setRoute(window.__ROUTES__.current.route);
+    navigate(props.to);
   }
-  return <a className={props.className} href={props.to} onClick={handleClick}>{props.children}</a>
+  return <a
+    title={props.title}
+    className={props.className}
+    href={props.to}
+    onClick={handleClick}>
+      {props.children}
+  </a>;
 };
