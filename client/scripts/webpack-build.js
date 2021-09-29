@@ -3,7 +3,7 @@ const webpackConfigClient = require('../webpack/webpack.client.config')
 const webpackConfigServer = require('../webpack/webpack.server.config')
 require('dotenv').config();
 
-console.log('Stat webpack build...');
+console.log('🏎️ Start webpack build...');
 const start = +new Date();
 webpack([
   {

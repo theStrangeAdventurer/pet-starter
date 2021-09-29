@@ -5,19 +5,15 @@
   "scripts": {
     "docker:up": "npm run generate:mongo:init && docker-compose --env-file ./.env -f docker/docker-compose.yml up -d",
     "docker:down": "docker-compose --env-file ./.env -f docker/docker-compose.yml down",
-
     "build": "yarn clean && yarn build:client && yarn build:api",
     "build:client": "lerna run build --scope=@app/client --stream",
     "build:api": "lerna run build --scope=@app/api --stream",
-
     "start": "yarn clean && yarn docker:up && yarn build && concurrently \"yarn start:client\" \"yarn start:api\"",
     "start:api": "node dist/api",
     "start:client": "node dist/ssr",
-
     "dev": "yarn clean && concurrently \"yarn docker:up\" \"yarn dev:client\" \"yarn dev:api\" ",
     "dev:api": "lerna run dev --scope=@app/api --stream",
     "dev:client": "lerna run dev --scope=@app/client --stream",
-
     "clean": "rm -rf ./dist",
     "generate:mongo:init": "node scripts/create-init-mongo.js"
   },
