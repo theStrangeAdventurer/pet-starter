@@ -1,24 +1,5 @@
 version: "3"
 services:
-  client:
-    container_name: monorepo_client
-    image: monorepo_client
-    restart: always
-    volumes:
-      - ./client:/app/client
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.client
-
-  api:
-    container_name: monorepo_api
-    image: monorepo_api
-    restart: always
-    volumes:
-      - ./api:/app/api
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.api
   nginx:
     image: nginx:alpine
     container_name: monorepo_nginx
@@ -32,8 +13,20 @@ services:
       - ./../nginx/conf.d:/etc/nginx/conf.d
       - ./../nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - api
-      - client
+      - mongo
     links:
-      - api
-      - client
+      - mongo
+
+  mongo:
+    container_name: monorepo_mongo
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=${DB_NAME}
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./../mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./../mongo/mongo-volume:/data/db
+      - ./../mongo/mongodb:/home/mongodb
+    ports:
+      - "27017:27017"

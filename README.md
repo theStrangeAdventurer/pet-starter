@@ -34,7 +34,7 @@ You also need installed yarn (checked on version 3 yarn) on your machine, cause 
 - How to install docker on Windows - https://docs.docker.com/desktop/windows/install/
 - How to install Docker on Ubuntu (https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04) and how to install docker-compose on Ubuntu(https://phoenixnap.com/kb/install-docker-compose-on-ubuntu-20-04)
 
-If `docker` and `dokker-compose` (Docker Desktop) are already installed, just open terminal and:
+If `docker` and `docker-compose` (Docker Desktop) are already installed, just open terminal and:
 
 ```sh
 git clone git@github.com:alexej3ajtsev/pet-starter.git /path/to/your/project
@@ -49,24 +49,20 @@ yarn dev
 
 After these commands you can open your browser at `http://localhost` see that everything works!
 
-## How to build for production ?
-
-If you want just check that webpack build is running correctly, you need run in root folder
+## How to build and run production build ?
 
 ```sh
-yarn build
-```
-
-If you want build production build with all services in docker containers you need run
-
-```sh
-yarn docker:up
+yarn start
 ```
 
 All nginx configurations located in `nginx` folder and all docker files located in `docker` folder, You can configure everything as you need with these files.
 
 ## How configure webpack configurations ?
 
-Client SSR app used webpack for build and it's configurations located in `client/webpack` folder, you can change it as you need, also you can modify `client/tsconfig.json`
+Client SSR app used webpack5 for build and it's configurations located in `client/webpack` folder, you can change it as you need, also you can modify `client/tsconfig.json`
 
 Api express server build going through `tsconfig.json` configuration file, which is located in `api/tsconfig.json`
+
+## what's with the database ?
+
+By default used `mongodb` with mongoose, but you can change it if you want, credentials for connect with database located in `.env` file, which located in root folder. Don't forget remove them, cause `.env` files should not be stored in the repository for security reasons (here they are just for an example of the content that is expected in them).

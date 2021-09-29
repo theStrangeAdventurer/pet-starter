@@ -1,3 +1,8 @@
 node_modules
 .yarn
 dist
+mongo/mongo-volume/*
+!mongo/mongo-volume/.keep
+mongo/mongodb/*
+!mongo/mongodb/.keep
+mongo/init-mongo.js
