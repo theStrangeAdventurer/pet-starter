@@ -28,9 +28,9 @@ export const getSSRProps = async (params: RouteParams = {}) => {
 
 ## How do I get started ?
 
-First, you need `docker` and `docker-compose` installed on your machine to run the project, otherwise the requests will not be proxied to `api express server` which located in api folder
+First, you need `node`, `docker` and `docker-compose` installed on your machine to run the project, otherwise the requests will not be proxied to `api express server` which located in api folder
 
-You also need installed yarn (checked on version 3 yarn) on your machine, cause this monorepo used yarn workspaces.
+You also need installed `yarn` (checked on version 3 yarn) on your machine, cause this monorepo used yarn workspaces.
 
 - How to install docker on Mac - https://docs.docker.com/desktop/mac/install/
 - How to install docker on Windows - https://docs.docker.com/desktop/windows/install/
