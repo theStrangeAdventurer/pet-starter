@@ -16,6 +16,8 @@ services:
       - mongo
     links:
       - mongo
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mongo:
     container_name: monorepo_mongo
