@@ -24,6 +24,8 @@ export const getSSRProps = async (params: RouteParams = {}) => {
 
 - Requests that are sent to `/api/*` will be proxied by `nginx` (which runs in docker) to the express server, which is located in the api folder. You can replace it with something that is convenient for you, the main thing is not to forget to fix the respective `scripts` in `package.json` files in the root folder and `package.json` which located in `/api/` folder.
 
+- `mongodb` is used as the database by default. `Mongoose` used for work with mongobd (see `/api` folder which contain base example post and get methods and work with mongoose models)
+
 ## How do I get started ?
 
 First, you need `docker` and `docker-compose` installed on your machine to run the project, otherwise the requests will not be proxied to `api express server` which located in api folder
