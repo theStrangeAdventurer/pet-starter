@@ -6,3 +6,7 @@ mongo/mongo-volume/*
 mongo/mongodb/*
 !mongo/mongodb/.keep
 mongo/init-mongo.js
+nginx/certbot/conf/*
+!nginx/certbot/conf/.keep
+nginx/certbot/www/*
+!nginx/certbot/www/.keep
