@@ -3,7 +3,9 @@ import React from 'react';
 import { renderToString } from "react-dom/server";
 import fs from 'fs';
 import path from 'path';
-const ejs = require("ejs").__express;
+import ejsModule from 'ejs';
+// @ts-ignore
+const ejs = ejsModule.__express;
 
 import { AppWrapper } from '../app-wrapper';
 import { matchRoute } from '../utils/match-route';

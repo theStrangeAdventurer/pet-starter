@@ -2,7 +2,7 @@ import React from 'react';
 import { App } from 'src/components/App';
 import { Helmet } from 'react-helmet';
 
-export default () => {
+const MainPage = () => {
   return (
     <>
       <Helmet>
@@ -13,3 +13,5 @@ export default () => {
     </>
   )
 }
+
+export default MainPage;
