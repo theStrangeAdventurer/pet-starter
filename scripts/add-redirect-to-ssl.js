@@ -16,5 +16,5 @@ let redirectPart = `
 
 console.log(`Adding a 301 redirect to 443 port and non www host`);
 ngixnConfStr = ngixnConfStr.replace(REPLACE_PART, REPLACE_PART + redirectPart);
-fs.readFileSync(nginxProdConf, ngixnConfStr);
+fs.writeFileSync(nginxProdConf, ngixnConfStr);
 console.log(`301 redirect added...`);

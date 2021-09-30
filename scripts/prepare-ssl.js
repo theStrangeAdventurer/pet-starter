@@ -21,6 +21,6 @@ initLEScriptStr = initLEScriptStr.replace(new RegExp(DOMAIN_MASK, 'g'), domainNa
 initLEScriptStr = initLEScriptStr.replace(new RegExp(DOMAIN_EMAIL_MASK, 'g'), domainEmail);
 
 console.log(`👀 Changing in configs: \n\t#DOMAIN# -> ${domainName}\n\t#DOMAIN_EMAIL# -> ${domainEmail}`);
-fs.readFileSync(nginxProdConf, ngixnConfStr);
-fs.readFileSync(initLetsEncryptScript, initLEScriptStr);
+fs.writeFileSync(nginxProdConf, ngixnConfStr);
+fs.writeFileSync(initLetsEncryptScript, initLEScriptStr);
 console.log(`👀 Changing is competed!`);
