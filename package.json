@@ -17,7 +17,7 @@
     "clean": "rm -rf ./dist",
     "generate:mongo:init": "node scripts/create-init-mongo.js",
     "patch:ssl:configs": "node scripts/prepare-ssl.js",
-    "add:redirect": "node scripts/add-redirect-to-ssl.js" 
+    "add:redirect": "node scripts/add-redirect-to-ssl.js"
   },
   "workspaces": [
     "client",

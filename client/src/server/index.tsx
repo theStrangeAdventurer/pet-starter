@@ -9,6 +9,7 @@ import { AppWrapper } from '../app-wrapper';
 import { matchRoute } from '../utils/match-route';
 import { PagesGetSSRPropsHandlers, RoutesRegexp } from 'src/pages-config.gen';
 import { prepareAssetsHtml } from './utils/prepare-assets-html';
+import { Helmet } from 'react-helmet';
 
 const app = express();
 const assetsFolder = path.resolve(__dirname, 'public');
@@ -33,6 +34,12 @@ app.get("*", async (req, res) => {
     ...currentRoute, 
     ssrData
   }} />);
+  const helmet = Helmet.renderStatic();
+  const helmetHead = `
+  ${helmet.title.toString()}
+  ${helmet.meta.toString()}
+  ${helmet.link.toString()}
+  `;
   const status = currentRoute.route !== '/404' ? 200 : 404;
   const routes = JSON.stringify({
       current: currentRoute,
@@ -40,6 +47,7 @@ app.get("*", async (req, res) => {
       pages: RoutesRegexp.map(([, route]) => route),
   });
   res.status(status).render('client', {
+    helmetHead,
     ssrData: JSON.stringify(ssrData || {}),
     routes,
     jsx, 

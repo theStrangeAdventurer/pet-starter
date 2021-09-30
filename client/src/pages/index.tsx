@@ -1,10 +1,15 @@
-import { Link } from '../@core/components/Link/Link';
 import React from 'react';
 import { App } from 'src/components/App';
+import { Helmet } from 'react-helmet';
 
 export default () => {
-  return <div>
-    <App />
-    <Link to="/details/someDetailId">Go to Details</Link>
-  </div>
+  return (
+    <>
+      <Helmet>
+        <title>Pet Starter SEO title</title>
+        <meta name="description" content="Pet Starter SEO descroption" />
+      </Helmet>
+      <App />
+    </>
+  )
 }

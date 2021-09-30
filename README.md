@@ -9,6 +9,7 @@ This is the basic template for a mono repository, which includes a client applic
 - SSR (Server side rendering)
 - webpack watch with browser live reload(via the Server Sent Events)
 - css modules
+- React Helmet for SEO optimizations
 - routing based on the file structure - just create a file in the `pages` directory and after launching `yarn dev`, you will have a new route (for example, if you create a file `/pages/detail/:someParam.tsx`, this page will open in browser for requests `/detail/whateverParamValue123`)
 - Getting data on the server is implemented by adding the exported `getSSRProps` function, for example:
 

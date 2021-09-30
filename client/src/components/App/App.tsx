@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'src/@core/hooks/use-navigate';
+import React from 'react'
+import { Link } from 'src/@core/components/Link';
 import styles from './App.module.css';
 
 export const App = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigate('/details/someDeailId')
-    }, 5000);
-  }, []);
-  
   return (
     <div className={styles.app}>
-      <h1>App component</h1>
+      <h1 className={styles.title}>Hello, I'm Pet Starter</h1>
+      <div className={styles.logo}>
+        <span className={styles.logoInner}>🐶</span>
+      </div>
+      <Link className={styles.button} to='/details/someId'>Go to details page!</Link>
     </div>
-  )
-}
+  );
+};

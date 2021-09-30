@@ -1,4 +1,49 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.button {
+  display: block;
+  padding: 12px 24px;
+  background-color: #e91e63;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
 .app {
-  min-height: 400px;
-  outline: 2px solid green;
+  min-height: 100vh;
+  background: #131a1d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.title {
+  color: white;
+}
+
+.logo {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoInner {
+  position: absolute;
+  top: 50;
+  font-size: 100px;
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
