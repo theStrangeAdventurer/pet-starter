@@ -7,9 +7,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 
 const isProd = process.env.NODE_ENV === "production";
 
-const db = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
-  isProd ? "mongo" : "localhost"
-}:27017/${process.env.DB_NAME}?authSource=admin`;
+const db = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:27017/${process.env.DB_NAME}?authSource=admin`;
 
 dbConnect({ db });
 

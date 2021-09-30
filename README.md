@@ -26,6 +26,8 @@ export const getSSRProps = async (params: RouteParams = {}) => {
 
 - `mongodb` is used as the database by default. `Mongoose` used for work with mongobd (see `/api` folder which contain base example post and get methods and work with mongoose models)
 
+- for production used certbot with Let's Encrypt ssl certificate
+
 ## How do I get started ?
 
 First, you need `node`, `docker` and `docker-compose` installed on your machine to run the project, otherwise the requests will not be proxied to `api express server` which located in api folder
@@ -53,9 +55,35 @@ After these commands you can open your browser at `http://localhost` see that ev
 
 ## How to build and run production build ?
 
+First, you need change `DOMAIN` and `DOMAIN_EMAIL` in .env file wich located in root folder and set `NODE_ENV` to `production`,
+then run in the terminal while at the root of the project `yarn patch:ssl:configs`
+
+The next thing you need is run in the terminal
+
 ```sh
+сd /path/to/project/root/nginx
+./init-letsencrypt.sh
+```
+
+After that in the root project folder run
+
+```sh
+yarn build
+yarn docker:up
 yarn start
 ```
+
+If everything went well you should see following lines in terminal
+
+```sh
+api server started on port 3000
+🔛 Successfully connected to mongodb://{DB_USERNAME}:{DB_PASSWORD}@localhost:27017/{DB_NAME}?authSource=admin
+SSR server started on port 8080 🚀
+```
+
+Check running docker containers `docker ps`, if everything went well they (`nginx:alpine`, `certbot/certbot`, `mongo`) must have the status `Up`
+
+After that go to the your domain in browser and check that everythings works properly 🙂
 
 All nginx configurations located in `nginx` folder and all docker files located in `docker` folder, You can configure everything as you need with these files.
 
