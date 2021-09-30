@@ -36,6 +36,7 @@ module.exports = merge.merge(commonConfig, {
       patterns: [
         { context: path.resolve('src', 'server'), from: 'views', to: 'views' },
         { context: path.resolve('..', 'client'), from: 'assets', to: 'public/assets' },
+        { context: path.resolve('..', 'client'), from: 'seo-files', to: 'public' },
       ],
     }),
   ]
