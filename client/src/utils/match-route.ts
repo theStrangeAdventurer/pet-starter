@@ -1,8 +1,8 @@
-import { RoutesRegexp } from "src/pages-config.gen";
+import { RoutesRegexp } from 'src/pages-config.gen';
 
 export function matchRoute(
   reqPath: string,
-  routesRegexp: typeof RoutesRegexp
+  routesRegexp: typeof RoutesRegexp,
 ): {
   route: string;
   params: { [key: string]: string };
@@ -30,7 +30,7 @@ export function matchRoute(
   }
   if (!result) {
     result = {
-      route: "/404",
+      route: '/404',
       params: {},
     };
   }

@@ -18,12 +18,10 @@ export const Link = (props: LinkProps) => {
       return;
     }
     navigate(props.to);
-  }
-  return <a
-    title={props.title}
-    className={props.className}
-    href={props.to}
-    onClick={handleClick}>
+  };
+  return (
+    <a title={props.title} className={props.className} href={props.to} onClick={handleClick}>
       {props.children}
-  </a>;
+    </a>
+  );
 };

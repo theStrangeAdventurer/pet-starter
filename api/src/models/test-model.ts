@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const TestModel = mongoose.model(
-  "TestModel",
+  'TestModel',
   new mongoose.Schema({
     name: String,
-  })
+  }),
 );

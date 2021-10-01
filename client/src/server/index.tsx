@@ -23,44 +23,44 @@ app.set('view engine', 'ejs');
 app.engine('ejs', ejs);
 app.set('views', path.join(__dirname, 'views'));
 app.get('*', async (req, res) => {
-    const currentRoute = matchRoute(req.path, RoutesRegexp);
-    const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
-    let ssrData: unknown;
-    if (getSSRProps) {
-        ssrData = await getSSRProps(currentRoute.params);
-    }
+  const currentRoute = matchRoute(req.path, RoutesRegexp);
+  const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
+  let ssrData: unknown;
+  if (getSSRProps) {
+    ssrData = await getSSRProps(currentRoute.params);
+  }
 
-    const jsx = renderToString(
-        <AppWrapper
-            data={{
-                ...currentRoute,
-                ssrData,
-            }}
-        />,
-    );
-    const helmet = Helmet.renderStatic();
-    const helmetHead = `
+  const jsx = renderToString(
+    <AppWrapper
+      data={{
+        ...currentRoute,
+        ssrData,
+      }}
+    />,
+  );
+  const helmet = Helmet.renderStatic();
+  const helmetHead = `
   ${helmet.title.toString()}
   ${helmet.meta.toString()}
   ${helmet.link.toString()}
   `;
-    const status = currentRoute.route !== '/404' ? 200 : 404;
-    const routes = JSON.stringify({
-        current: currentRoute,
-        reqPath: req.path,
-        pages: RoutesRegexp.map(([, route]) => route),
-    });
-    res.status(status).render('client', {
-        helmetHead,
-        ssrData: JSON.stringify(ssrData || {}),
-        routes,
-        jsx,
-        scripts: jsScriptsHtml,
-        cssLinks: cssLinkshtml,
-        liveReloadPort: process.env.LIVE_RELOAD_PORT,
-        liveReloadScript: process.env.NODE_ENV === 'development',
-    });
+  const status = currentRoute.route !== '/404' ? 200 : 404;
+  const routes = JSON.stringify({
+    current: currentRoute,
+    reqPath: req.path,
+    pages: RoutesRegexp.map(([, route]) => route),
+  });
+  res.status(status).render('client', {
+    helmetHead,
+    ssrData: JSON.stringify(ssrData || {}),
+    routes,
+    jsx,
+    scripts: jsScriptsHtml,
+    cssLinks: cssLinkshtml,
+    liveReloadPort: process.env.LIVE_RELOAD_PORT,
+    liveReloadScript: process.env.NODE_ENV === 'development',
+  });
 });
 app.listen(process.env.PORT, () => {
-    console.log(`SSR server started on port ${process.env.PORT} 🚀`);
+  console.log(`SSR server started on port ${process.env.PORT} 🚀`);
 });

@@ -15,13 +15,13 @@ export function AppWrapper(props: AppWrapperProps) {
     if (route !== initialRoute && typeof window !== undefined) {
       return {
         ...window.__ROUTES__.current,
-        ssrData: window.__SSR_DATA__
-      }
+        ssrData: window.__SSR_DATA__,
+      };
     }
     return data;
-  }
+  };
   const Page = PagesComponents[route as keyof typeof PagesComponents];
-  
+
   useEffect(() => {
     window.addEventListener('popstate', () => {
       window.__ROUTES__.current = matchRoute(location.pathname, RoutesRegexp);
@@ -30,10 +30,14 @@ export function AppWrapper(props: AppWrapperProps) {
     });
   }, []);
 
-  return <RouterContext.Provider value={{
-    route,
-    setRoute,
-  }}>
-    <Page {...getPageData()} />
-  </RouterContext.Provider>
+  return (
+    <RouterContext.Provider
+      value={{
+        route,
+        setRoute,
+      }}
+    >
+      <Page {...getPageData()} />
+    </RouterContext.Provider>
+  );
 }

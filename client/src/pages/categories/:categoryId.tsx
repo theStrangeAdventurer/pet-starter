@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import axios from 'axios';
 
 export const getSSRProps = async (params: RouteParams = {}) => {
@@ -9,14 +9,13 @@ export const getSSRProps = async (params: RouteParams = {}) => {
 const CategoryPage = (props: any) => {
   useEffect(() => {
     console.log('My props is', props);
-    
   }, []);
 
   return (
     <div>
       <h1>CategoryPage</h1>
     </div>
-  )
-}
+  );
+};
 
 export default CategoryPage;

@@ -3,7 +3,11 @@
   "private": true,
   "license": "ISC",
   "scripts": {
-    "docker:up": "npm run generate:mongo:init && docker-compose --env-file ./.env -f docker/docker-compose.yml up -d",
+    "lint:client": "eslint --fix --ext .ts,.tsx client/",
+    "lint:api": "eslint --fix --ext .ts api/",
+    "fix:prettier": "prettier --write \"**/*.*\"",
+    "lint": "concurrently \"yarn lint:client\" \"yarn lint:api\" && yarn fix:prettier",
+    "docker:up": "yarn generate:mongo:init && docker-compose --env-file ./.env -f docker/docker-compose.yml up -d",
     "docker:down": "docker-compose --env-file ./.env -f docker/docker-compose.yml down",
     "build": "yarn clean && yarn build:client && yarn build:api",
     "build:client": "lerna run build --scope=@app/client --stream",
