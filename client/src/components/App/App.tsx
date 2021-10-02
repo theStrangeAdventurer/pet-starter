@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'src/@core/components/Link';
+import { Link } from '@core/components/Link';
 import styles from './App.module.css';
 
 export const App = () => (

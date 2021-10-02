@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'src/@core/hooks/use-navigate';
+import { useNavigate } from '@core/hooks/use-navigate';
 
 interface LinkProps {
   to: string;

@@ -24,13 +24,18 @@
     "outDir": "../dist",
     "baseUrl": ".",
     "paths": {
-      "@core": [
-        "./src/@core"
+      "src/*": [
+        "src/*"
       ],
-      "src": [
-        "./src"
+      "@utils/*": [
+        "src/utils/*"
       ],
-      "components": ["./src/components"],
+      "@core/*": [
+        "src/@core/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ]
     }
   },
   "exclude": [

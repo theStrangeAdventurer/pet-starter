@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PagesComponents, RoutesRegexp } from './pages-config.gen';
-import { RouterContext } from 'src/@core/context/RouterContext';
+import { RouterContext } from '@core/context/RouterContext';
 import { matchRoute } from './utils/match-route';
 
 interface AppWrapperProps {

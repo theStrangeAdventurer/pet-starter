@@ -1,5 +1,5 @@
 import React from 'react';
-import { App } from 'src/components/App';
+import { App } from '@components/App';
 import { Helmet } from 'react-helmet';
 
 const MainPage = () => {

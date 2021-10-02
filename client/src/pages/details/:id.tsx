@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'src/@core/components/Link';
+import { Link } from '@core/components/Link';
 
 import './detailsId.css';
 
