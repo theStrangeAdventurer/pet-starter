@@ -1,4 +1,5 @@
 client/webpack
+client/scripts
 assets
 seo-files
 node_modules

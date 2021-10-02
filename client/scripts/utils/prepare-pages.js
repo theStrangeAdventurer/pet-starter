@@ -1,9 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const getPagesArr = (path) => {
-  return fs.readdirSync(path).filter((page) => !page.includes('.css'))
-}
+const getPagesArr = (path) => fs.readdirSync(path).filter((page) => !/\.s?css$/.test(page))
 
 module.exports = {
   preparePages: function preparePages(pagesPath) {
