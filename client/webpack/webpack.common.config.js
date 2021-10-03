@@ -42,7 +42,11 @@ module.exports = {
           'postcss-loader'
         ],
         exclude: /\.module\.css$/
-      }
+      },
+      {
+        test: /\.(svg|png)$/,
+        type: 'asset/inline'
+      },
     ],
   },
   resolve: {

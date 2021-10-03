@@ -21,6 +21,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "@types/require-from-string": "^1.2.1",
+    "autoprefixer": "^10.3.6",
     "clean-webpack-plugin": "^4.0.0",
     "connect-livereload": "^0.6.1",
     "copy-webpack-plugin": "^9.0.1",
