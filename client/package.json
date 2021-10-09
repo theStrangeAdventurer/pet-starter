@@ -40,7 +40,8 @@
     "webpack-cli": "^4.8.0",
     "webpack-manifest-plugin": "^4.0.2",
     "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "workbox-webpack-plugin": "^6.3.0"
   },
   "dependencies": {
     "@types/react-helmet": "^6.1.2",
@@ -50,6 +51,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
-    "request": "2.79.0"
+    "request": "2.79.0",
+    "workbox-precaching": "^6.3.0",
+    "workbox-strategies": "^6.3.0",
+    "workbox-window": "^6.3.0"
   }
 }
