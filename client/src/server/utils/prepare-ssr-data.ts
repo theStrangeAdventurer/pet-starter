@@ -1,0 +1,1 @@
+export const prepareSsrData = (data: Record<string, unknown>) => JSON.stringify(data).replace(/</g, '\\u003c');

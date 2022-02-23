@@ -8,12 +8,12 @@ import ejsModule from 'ejs';
 const ejs = ejsModule.__express;
 
 import { AppWrapper } from '../app-wrapper';
-import { matchRoute } from '../utils/match-route';
+import { matchRoute } from 'src/utils/match-route';
+import { checkIsMobile } from 'src/utils/common';
+import { prepareAssetsHtml, prepareSsrData } from './utils';
 import { PagesGetSSRPropsHandlers, RoutesRegexp } from 'src/pages-config.gen';
-import { prepareAssetsHtml } from './utils/prepare-assets-html';
 import { Helmet } from 'react-helmet';
 import { RouterWrapper } from 'src/@core/components/RouterWrapper';
-import { checkIsMobile } from 'src/utils/common';
 
 const app = express();
 const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
@@ -27,7 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('*', async (req, res) => {
   const currentRoute = matchRoute(req.path, RoutesRegexp);
   const getSSRProps = PagesGetSSRPropsHandlers[currentRoute.route as keyof typeof PagesGetSSRPropsHandlers];
-  let ssrData: unknown;
+  let ssrData = {} as Record<string, unknown>;
   if (getSSRProps) {
     ssrData = await getSSRProps(currentRoute.params);
   }
@@ -52,14 +52,14 @@ app.get('*', async (req, res) => {
   ${helmet.link.toString()}
   `;
   const status = currentRoute.route !== '/404' ? 200 : 404;
-  const routes = JSON.stringify({
+  const routes = prepareSsrData({
     current: currentRoute,
     reqPath: req.path,
     pages: RoutesRegexp.map(([, route]) => route),
   });
   res.status(status).render('client', {
     helmetHead,
-    ssrData: JSON.stringify(ssrData || {}),
+    ssrData: prepareSsrData(ssrData),
     routes,
     jsx,
     scripts: jsScriptsHtml,
