@@ -12,6 +12,8 @@ import { matchRoute } from '../utils/match-route';
 import { PagesGetSSRPropsHandlers, RoutesRegexp } from 'src/pages-config.gen';
 import { prepareAssetsHtml } from './utils/prepare-assets-html';
 import { Helmet } from 'react-helmet';
+import { RouterWrapper } from 'src/@core/components/RouterWrapper';
+import { checkIsMobile } from 'src/utils/common';
 
 const app = express();
 const assetsManifest = path.resolve(__dirname, 'public', 'manifest.json');
@@ -29,14 +31,19 @@ app.get('*', async (req, res) => {
   if (getSSRProps) {
     ssrData = await getSSRProps(currentRoute.params);
   }
+  const userAgent = req.headers['user-agent'];
+  const isMobile = checkIsMobile(userAgent);
 
   const jsx = renderToString(
-    <AppWrapper
-      data={{
-        ...currentRoute,
-        ssrData,
-      }}
-    />,
+    <RouterWrapper {...currentRoute}>
+      <AppWrapper
+        data={{
+          userAgent,
+          isMobile,
+          ssrData,
+        }}
+      />
+    </RouterWrapper>,
   );
   const helmet = Helmet.renderStatic();
   const helmetHead = `

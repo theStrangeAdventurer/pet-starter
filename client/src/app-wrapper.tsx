@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { PagesComponents, RoutesRegexp } from './pages-config.gen';
+import React, { useContext, useReducer, } from 'react';
+import { PagesComponents } from './pages-config.gen';
 import { RouterContext } from '@core/context/RouterContext';
-import { matchRoute } from './utils/match-route';
+import { GlobalContext, globalContextInitialState, globalReducer } from './@core/context/GlobalContext';
 
 interface AppWrapperProps {
   data: CommonPageProps;
@@ -9,35 +9,17 @@ interface AppWrapperProps {
 
 export function AppWrapper(props: AppWrapperProps) {
   const { data } = props;
-  const { route: initialRoute } = data;
-  const [route, setRoute] = useState(initialRoute);
-  const getPageData = () => {
-    if (route !== initialRoute && typeof window !== undefined) {
-      return {
-        ...window.__ROUTES__.current,
-        ssrData: window.__SSR_DATA__,
-      };
-    }
-    return data;
-  };
+  const { state: { route } } = useContext(RouterContext);
   const Page = PagesComponents[route as keyof typeof PagesComponents];
 
-  useEffect(() => {
-    window.addEventListener('popstate', () => {
-      window.__ROUTES__.current = matchRoute(location.pathname, RoutesRegexp);
-      window.__SSR_DATA__ = {};
-      setRoute(window.__ROUTES__.current.route);
-    });
-  }, []);
-
+  const [globalState] = useReducer(
+    globalReducer,
+    globalContextInitialState
+  );
+  
   return (
-    <RouterContext.Provider
-      value={{
-        route,
-        setRoute,
-      }}
-    >
-      <Page {...getPageData()} />
-    </RouterContext.Provider>
+    <GlobalContext.Provider value={{ state: globalState }}>
+      <Page {...data} />
+    </GlobalContext.Provider>
   );
 }

@@ -1,8 +1,9 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from '@core/components/Link';
 
 import './detailsId.css';
+import { RouterContext } from 'src/@core/context/RouterContext';
 
 export const getSSRProps = async (params: RouteParams = {}) => {
   const response = await axios.get(`/api/details/${params.id}`);
@@ -13,11 +14,12 @@ const DetailsPage = (props: CommonPageProps) => {
   const [pageData, setPageData] = useState(props.ssrData);
   const hasData = 'data' in pageData;
   const emptyData = hasData && pageData.data === null;
-  const { id } = props.params; // this page called :id and it will receive id from url
+  const { state: { params } } = useContext(RouterContext);
+  const { id } = params; // this page called :id and it will receive id from url
 
   useEffect(() => {
     if (!hasData) {
-      getSSRProps(props.params).then((data) => {
+      getSSRProps(params).then((data) => {
         setPageData(data);
       });
     }

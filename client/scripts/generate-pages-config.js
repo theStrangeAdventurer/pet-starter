@@ -37,7 +37,6 @@ const getPageComponentName = (filename) => {
     return specialPagesAliases[filename];
   }
   const CamelCaseName = filename.replace(/(^\w|\/:?(\w))/g, (...match) => {
-      console.log();
       return match[1].toUpperCase();
   });
 

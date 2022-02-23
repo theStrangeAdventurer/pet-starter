@@ -1,4 +1,8 @@
-type CommonPageProps = { route: string; params: RouteParams; ssrData?: any };
+type CommonPageProps = {
+  isMobile: boolean;
+  userAgent: string;
+  ssrData?: any
+};
 
 type RouteParams = { [param: string]: string };
 

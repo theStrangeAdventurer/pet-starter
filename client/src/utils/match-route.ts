@@ -1,4 +1,4 @@
-import { RoutesRegexp } from 'src/pages-config.gen';
+import { RoutesRegexp } from '../pages-config.gen';
 
 export function matchRoute(
   reqPath: string,
@@ -7,26 +7,34 @@ export function matchRoute(
   route: string;
   params: { [key: string]: string };
 } {
-  const page = routesRegexp.find(([, route]) => route === reqPath);
-  if (page) {
-    return {
-      route: reqPath,
-      params: {},
-    };
-  }
   let result = null;
+  const [, search = ''] = reqPath.split('?');
+  const searchParams = Object.fromEntries((new URLSearchParams(search) as unknown) as Iterable<readonly any[]>);  
 
   for (const [re, route] of routesRegexp) {
     if (result) {
       continue;
     }
     const match = re.exec(reqPath);
-    if (match?.groups) {
-      result = {
-        route,
-        params: match.groups,
-      };
+    
+    if (match === null) {
+      continue;
     }
+    
+    let params = {
+      ...searchParams,
+    };
+    if (match.groups) {
+      params = {
+        ...params,
+        ...match.groups
+      }
+    }
+
+    result = {
+      route,
+      params,
+    };
   }
   if (!result) {
     result = {
